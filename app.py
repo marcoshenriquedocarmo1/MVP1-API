@@ -28,6 +28,10 @@ aluno_tag = Tag(name="Aluno", description="Cadastro, listagem e busca de alunos,
 
 @app.get('/', tags=[home_tag])
 def home():
+    """Esta é a rota principal da aplicação. Ao ser acessada, ela realiza um redirecionamento automático para a interface de documentação interativa da API, disponível em /openapi.
+
+    Essa funcionalidade tem como objetivo facilitar o acesso dos usuários à documentação dos endpoints, permitindo testes e visualização dos dados esperados em cada requisição.
+    """
     return redirect('/openapi')
 
 @app.post('/academia', tags=[academia_tag],
