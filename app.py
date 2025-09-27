@@ -10,6 +10,7 @@ from schemas import *
 from flask_cors import CORS
 from flask import request
 
+import logging
 
 from flask import jsonify
 from sqlalchemy.orm import joinedload
@@ -19,6 +20,22 @@ from schemas import AcademiaCreate, AcademiaViewSchema, AcademiaBuscaSchema, Pro
 info = Info(title="Minha API", version="1.0.0")
 app = OpenAPI(__name__, info=info)
 CORS(app)
+
+# Reconfigura o logger do Werkzeug
+werkzeug_logger = logging.getLogger('werkzeug')
+werkzeug_logger.setLevel(logging.INFO)
+# Remove handlers existentes
+for handler in werkzeug_logger.handlers:
+    werkzeug_logger.removeHandler(handler)
+
+logger = logging.getLogger("meu_app")
+logger.setLevel(logging.DEBUG)
+file_handler = logging.FileHandler("log/app.log", encoding="utf-8")
+formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
+file_handler.setFormatter(formatter)
+
+logger.addHandler(file_handler)
+
 
 # definindo tags
 home_tag = Tag(name="Home", description="Ponto de entrada da API. Pode incluir informações gerais, status ou documentação.")
